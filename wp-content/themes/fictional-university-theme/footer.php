@@ -15,7 +15,7 @@
               <h3 class="headline headline--small">Explore</h3>
               <nav class="nav-list">
                 <ul>
-                  <li><a href="#">About Us</a></li>
+                  <li><a href="<?php  echo home_url('/about-us' )?>">About Us</a></li>
                   <li><a href="#">Programs</a></li>
                   <li><a href="#">Events</a></li>
                   <li><a href="#">Campuses</a></li>
@@ -28,7 +28,7 @@
               <nav class="nav-list">
                 <ul>
                   <li><a href="#">Legal</a></li>
-                  <li><a href="#">Privacy</a></li>
+                  <li><a href="<?php echo home_url('/privacy-policy'); ?>">Privacy</a></li>
                   <li><a href="#">Careers</a></li>
                 </ul>
               </nav>
