@@ -7,7 +7,7 @@ while (have_posts()) {
   ?>
   
   <div class="page-banner">
-    <div class="page-banner__bg-image" style="background-image: url(images/ocean.jpg)"></div>
+    <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri( 'images/ocean.jpg' ) ?>)"></div>
     <div class="page-banner__content container container--narrow">
       <h1 class="page-banner__title"><?php the_title(); ?></h1>
       <div class="page-banner__intro">
@@ -40,7 +40,13 @@ while (have_posts()) {
     <?php } ?>
     
 
-  <div class="page-links">
+  <?php 
+  
+  $hasChild = get_pages( array(
+   'child_of' => get_the_ID(  )
+  ) );
+  
+  if ( $parent_id or $hasChild ) { ?> <div class="page-links">
 
     <?php 
       // display the sidebar regardless
@@ -65,10 +71,13 @@ while (have_posts()) {
     ?>
     </ul>
   </div>
+  <?php } ?>
+
     <div class="generic-content">
       <?php the_content(); ?>
     </div>
   </div>
+  <
 <?php 
 }
 
