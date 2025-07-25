@@ -19,11 +19,11 @@
         <div class="site-header__menu group">
           <nav class="main-navigation">
             <ul>
-              <li <?php  if(is_page('about-us') or wp_get_post_parent_id(0) == 16 ) echo 'class="current-menu-item"' ?>  ><a href="<?php  echo home_url('/about-us'); ?>">About Us</a></li>
+              <li <?php  if(is_page('about-us') or wp_get_post_parent_id(0) === 16 ) echo 'class="current-menu-item"' ?>  ><a href="<?php  echo esc_url(home_url('/about-us')); ?>">About Us</a></li>
               <li><a href="#">Programs</a></li>
               <li><a href="#">Events</a></li>
               <li><a href="#">Campuses</a></li>
-              <li><a href="#">Blog</a></li>
+              <li <?php if(is_page('blog') or wp_get_post_parent_id( 0 ) === 38) echo 'class="current-menu-item"' ?>   ><a href="<?php echo esc_url( home_url( '/blog' ) ) ?>">Blog</a></li>
             </ul>
           </nav>
           <div class="site-header__util">
