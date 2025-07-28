@@ -1,0 +1,77 @@
+# WordPress .gitignore
+wp-config.php
+wp-content/uploads/
+wp-content/plugins/
+
+# Ignore default WordPress themes (keep your custom theme!)
+wp-content/themes/twentytwentyone/
+wp-content/themes/twentytwentytwo/
+wp-content/themes/twentytwentythree/
+wp-content/themes/twentytwentyfour/
+
+# Keep your custom theme - DON'T ignore:
+# wp-content/themes/your-theme-name/
+
+wp-content/cache/
+wp-content/backup-db/
+wp-content/advanced-cache.php
+wp-content/wp-cache-config.php
+.htaccess
+*.log
+
+# Node.js .gitignore
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+dist/
+build/
+
+# PHP .gitignore
+vendor/
+composer.lock
+*.log
+.env
+
+# Python .gitignore
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.env
+
+# General files to ignore
+.DS_Store
+Thumbs.db
+*.tmp
+*.temp
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Database files
+*.sql
+*.sqlite
+*.db
+
+# Compiled files
+*.min.js
+*.min.css
+
+# Backup files
+*.bak
+*.backup
