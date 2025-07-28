@@ -10,7 +10,7 @@ get_header();
       }else if (is_author(  )){
        echo 'Posted by '; the_author() ;
       };
-      ?> This is Archive Page</h1>
+      ?> Welcome to Our Events</h1>
       <div class="page-banner__intro">
         <p><?php the_archive_description() ?></p>
       </div>
@@ -21,20 +21,16 @@ get_header();
 <?php
  while(have_posts(  )){
     the_post(); ?>
-    <div class="post-item">
-      <h2 class="headline headline--medium headline--post-title"><a href="<?php the_permalink( ) ?>"><?php the_title( ) ?></a></h2>
-      <div class="metabox">
-        <p>Posted by <?php the_author_posts_link(  )?> on <?php the_time('M.j.Y' ) ?> in <?php echo get_the_category_list(', '  )  ?></p>
-      </div>
-
-      <div class="generic-content">
-        <?php the_excerpt(  ) ?>
-        <p><a href="<?php the_permalink() ?>" class="btn btn--blue">
-           Continue reading &raquo;
-        </a>
-        </p>
-      </div>
-    </div>
+     <div class="event-summary">
+               <a class="event-summary__date event-summary__date--beige t-center" href="<?php the_permalink( ) ?>">
+                <span class="event-summary__month"><?php the_time('M'); ?></span>
+                <span class="event-summary__day"><?php the_time('j'); ?></span>
+               </a>
+               <div class="event-summary__content">
+                <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink( )?>"><?php the_title( ) ?></a></h5>
+                <p><?php  echo wp_trim_words(get_the_content(   ), 18,'...')?> <a href="<?php the_permalink(  )?>" class="nu gray">Read more</a></p>
+               </div>
+          </div>
 <?php 
  }
  
