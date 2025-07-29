@@ -29,8 +29,15 @@ get_header(); ?>
      ?>
     <div class="event-summary">
             <a class="event-summary__date t-center" href="#">
-              <span class="event-summary__month"><?php the_time('M') ?></span>
-              <span class="event-summary__day"><?php  the_time( 'j' )?></span>
+              <span class="event-summary__month"><?php
+
+               $event__date = get_field('event_date');
+
+               $event = new DateTime($event__date);
+               echo $event->format('M');
+
+              ?></span>
+              <span class="event-summary__day"><?php echo $event->format('d'); ?></span>
             </a>
             <div class="event-summary__content">
               <h5 class="event-summary__title headline headline--tiny"><a href="<?php  the_permalink(  ) ?>"><?php the_title( ) ?></a></h5>
