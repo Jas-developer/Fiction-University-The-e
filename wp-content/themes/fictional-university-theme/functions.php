@@ -11,7 +11,6 @@ function university_files()
 };
 
 add_action('wp_enqueue_scripts', 'university_files');
-
 function university_features()
 {
  add_theme_support( 'title-tag' );
@@ -21,7 +20,6 @@ add_action( 'after_setup_theme', 'university_features' );
 
 
 function university_adjust_queries($query){
-
     $today = date('Ymd');
     if($query->is_main_query() && !is_admin() && is_post_type_archive( 'event' )){
          $query->set('posts_per_page','4');
