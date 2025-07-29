@@ -16,10 +16,23 @@ get_header(); ?>
       <div class="full-width-split__one">
         <div class="full-width-split__inner">
           <h2 class="headline headline--small-plus t-center">Upcoming Events</h2>
-<?php     
+<?php 
+
+    $today = date('Ymd');
     $custom_post_parameter = [
       'post_type' => 'event',
-      'posts_per_page' => 2
+      'posts_per_page' => 2,
+      'meta_key' => 'event_date',
+      'orderby' => 'meta_value_num',
+      'order' => 'ASC',
+      'meta_query' => array(
+       array(
+        'key' => 'event_date',
+        'compare' => '>=',
+        'value' => $today,
+        'type' => 'numeric'
+       )
+      )
     ];
     // wp query object
     $custom_query = new WP_Query($custom_post_parameter);

@@ -10,7 +10,13 @@ while(have_posts()){
     <div class="page-banner__content container container--narrow">
       <h1 class="page-banner__title"><?php the_title(); ?></h1>
       <div class="page-banner__intro">
-        <p>Please Change me Later</p>
+        <p><?php 
+         $event__date = get_field('event_date');
+         
+         $event =  new DateTime($event__date);
+        ?> <p>We're so excited to meet you!</p>  <?
+         echo $event->format('F, j, Y')
+        ?></p>
       </div>
     </div>
   </div>
