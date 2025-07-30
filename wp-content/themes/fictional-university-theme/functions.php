@@ -15,11 +15,17 @@ function university_features()
 {
  add_theme_support( 'title-tag' );
 }
-
 add_action( 'after_setup_theme', 'university_features' );
 
 
 function university_adjust_queries($query){
+
+   if(!is_admin(  ) && is_post_type_archive( 'program' ) && is_main_query() ){
+     $query->set('orderby','title');
+     $query->set('order', 'ASC');
+     $query->set('posts_per_page', -1);
+   }
+
     $today = date('Ymd');
     if($query->is_main_query() && !is_admin() && is_post_type_archive( 'event' )){
          $query->set('posts_per_page','4');
