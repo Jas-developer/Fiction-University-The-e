@@ -35,12 +35,43 @@ while(have_posts()){
       <?php the_content(); ?>
       </p>
      </div>
+     <?php
+     
+    $professorQuery = [
+      'post_type' => 'professor',
+      'posts_per_page' => -1,
+      'orderby' => 'title',
+      'order' => 'ASC',
+      'meta_query' => array(
+        array(
+        'key' => 'related_programs',
+        'compare' => 'LIKE',
+        'value' => '"'.get_the_ID().'"'
+       )
+      )
+    ];
+    // wp query object
+    $relatedProfessors = new WP_Query($professorQuery);
+    
+    if($relatedProfessors->have_posts()){
+      
+      echo '<hr class="section-break"/>';
+    echo '<h2 class="headline headline--medium">'.get_the_title().' Professors</h2>';
+    while($relatedProfessors->have_posts()){
+      $relatedProfessors->the_post();
+     ?>
+     <li><a href="<?php the_permalink() ?>"> <?php the_title(  )?></a></li>
+<?php }
+    }
+      wp_reset_postdata();
+     
+     ?>
   <?php 
 
     $today = date('Ymd');
     $custom_post_parameter = [
       'post_type' => 'event',
-      'posts_per_page' => 2,
+      'posts_per_page' => -1,
       'meta_key' => 'event_date',
       'orderby' => 'meta_value_num',
       'order' => 'ASC',
@@ -61,7 +92,7 @@ while(have_posts()){
     $custom_query = new WP_Query($custom_post_parameter);
     
     if($custom_query->have_posts()){
-      
+
       echo '<hr class="section-break"/>';
     echo '<h2 class="headline headline--medium"> Upcoming '.get_the_title().' Events</h2>';
     while($custom_query->have_posts()){
@@ -86,7 +117,7 @@ while(have_posts()){
           </div>
 <?php }
     }
-     wp_reset_postdata(); ?>
+     ?>
   </div>
    <?php } 
    get_footer();
