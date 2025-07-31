@@ -11,10 +11,13 @@ function university_files()
 };
 
 add_action('wp_enqueue_scripts', 'university_files');
+
 function university_features()
 {
  add_theme_support( 'title-tag' );
+ add_theme_support('post-thumbnails');
 }
+
 add_action( 'after_setup_theme', 'university_features' );
 
 

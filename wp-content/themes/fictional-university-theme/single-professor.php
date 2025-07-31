@@ -14,16 +14,20 @@ while(have_posts()){
   </div>
   <div class="container container--narrow page-section">
      <div class="generic-content">
-      <p>
-         <?php the_content(); ?>
-      </p>
-     </div>
+       <di class="row group"> 
+        <div class="one-third">
+           <?php  the_post_thumbnail(); ?>
+        </div>
+        <div class="tow-thirds">
+           <?php  the_content(); ?>
+        </div>
+      </di>
+  </div>
      <?php 
      $relatedPrograms = get_field('related_programs');
     if(!empty($relatedPrograms)){
       echo '<hr class="section-break">';
       echo '<h2 class="headline headline--medium"> Subjects(s) Taught!</h2>';
-
       echo '<ul class="link-list min-list" >';
       foreach($relatedPrograms as $program){ ?>
           <li><a href="<?php echo get_the_permalink($program) ?>">
