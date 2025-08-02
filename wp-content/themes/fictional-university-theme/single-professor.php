@@ -16,7 +16,7 @@ while(have_posts()){
      <div class="generic-content">
        <di class="row group"> 
         <div class="one-third">
-           <?php  the_post_thumbnail(); ?>
+           <?php  the_post_thumbnail('professorPortrait'); ?>
         </div>
         <div class="tow-thirds">
            <?php  the_content(); ?>
