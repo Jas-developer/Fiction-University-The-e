@@ -3,7 +3,9 @@
 get_header();
 
 while (have_posts()) {
-  the_post();  pageBanner();
+  the_post();  pageBanner([
+    'subtitle' => 'Our history is truly incredible we began with working with elite people'
+  ]);
   ?>
   
   <div class="container container--narrow page-section">
