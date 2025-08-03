@@ -30,22 +30,8 @@ $past_events_param = array(
 
 $past_events = new WP_Query($past_events_param);
  while($past_events->have_posts(  )){
-   $past_events-> the_post(); ?>
-     <div class="event-summary">
-            <a class="event-summary__date t-center" href="#">
-              <span class="event-summary__month"><?php
-               $event__date = get_field('event_date');
-               $event = new DateTime($event__date);
-               echo $event->format('M');
-              ?></span>
-              <span class="event-summary__day"><?php echo $event->format('d'); ?></span>
-            </a>
-            <div class="event-summary__content">
-              <h5 class="event-summary__title headline headline--tiny"><a href="<?php  the_permalink(  ) ?>"><?php the_title( ) ?></a></h5>
-              <p><?php if(has_excerpt() ){ echo get_the_excerpt(); } else{ echo wp_trim_words(get_the_content(), 18); } ?> <a href="<?php  the_permalink(  ) ?>" class="nu gray">Learn more</a></p>
-        </div>
-    </div>
-<?php 
+   $past_events-> the_post();
+   get_template_part('template-parts/content', 'event');
  }
 $pagination = paginate_links(array(
   'total'     => $past_events->max_num_pages,
