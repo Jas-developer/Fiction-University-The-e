@@ -1,23 +1,21 @@
 <?php
 get_header();
+
+pageBanner(
+  [
+    'title' => 'Welcome to our Events',
+    'subtitle' => 'See daily updates on our world!s',
+    'photo' => get_theme_file_uri( '/images/ocean.jpg' )
+  ]
+)
 ?>
-<div class="page-banner">
-    <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri( 'images/ocean.jpg' ) ?>)"></div>
-    <div class="page-banner__content container container--narrow">
-      <h1 class="page-banner__title">Our Events</h1>
-      <div class="page-banner__intro">
-        <p>Welcome to Our Events</p>
-      </div>
-    </div>
-  </div>
-<!-- display contents -->
 <div class="container container--narrow page-section">
 <?php
 
  while(have_posts(  )){
     the_post(); ?>
      <div class="event-summary">
-            <a class="event-summary__date t-center" href="#">
+            <a class="event-summary__date t-center" href="<?php the_permalink(  )?>">
               <span class="event-summary__month"><?php
                $event__date = get_field('event_date');
                $event = new DateTime($event__date);

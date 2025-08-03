@@ -1,21 +1,14 @@
 <?php
 get_header();
+
+pageBanner([ 
+   'title' => get_the_archive_title(),
+   'subtitle' => get_the_archive_description()
+   ]
+);
+
 ?>
-<div class="page-banner">
-    <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri( 'images/ocean.jpg' ) ?>)"></div>
-    <div class="page-banner__content container container--narrow">
-      <h1 class="page-banner__title"><?php
-      if (is_category(  )){
-          single_cat_title();
-      }else if (is_author(  )){
-       echo 'Posted by '; the_author() ;
-      };
-      ?> This is Archive Page</h1>
-      <div class="page-banner__intro">
-        <p><?php the_archive_description() ?></p>
-      </div>
-    </div>
-  </div>
+
 <!-- display contents -->
 <div class="container container--narrow page-section">
 <?php
