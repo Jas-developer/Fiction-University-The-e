@@ -53,10 +53,17 @@ class Search {
   getResults() {
 
 
-    $.getJSON('http://fictional-university.local/wp-json/wp/v2/posts?search' + this.searchField.val(), (posts) => {
-      this.resultsDiv.html('<div>'+ {posts}+'</div>');
-
-      console.log(posts[0].title.rendered);
+    $.getJSON('http://fictional-university.local/wp-json/wp/v2/posts?search' 
+      + this.searchField.val(), posts => {
+      // template literal
+      this.resultsDiv.html(`
+         <h2 class="search-overlay__secton-title">General Information</h2>
+         <ul class="link-list min-list">
+            <li href="">
+             <a href="">Click Me</a>
+            </li>
+         </ul>
+        `);
     });
 
   }
