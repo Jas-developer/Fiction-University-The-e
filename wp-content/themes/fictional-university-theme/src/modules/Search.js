@@ -52,10 +52,11 @@ class Search {
 
   getResults() {
 
-    const url = 'http://fictional-university.local/wp-json/wp/v2/posts?search=biolgy';
 
-    $.getJSON(url, (posts) => {
-      alert(posts['title']);
+    $.getJSON('http://fictional-university.local/wp-json/wp/v2/posts?search' + this.searchField.val(), (posts) => {
+      this.resultsDiv.html('<div>'+ {posts}+'</div>');
+
+      console.log(posts[0].title.rendered);
     });
 
   }
