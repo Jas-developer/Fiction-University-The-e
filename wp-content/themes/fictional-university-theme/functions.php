@@ -1,6 +1,8 @@
 <?php 
 
 
+require get_theme_file_path('./includes/search-routes.php');
+
 
 
 //added new custom field
