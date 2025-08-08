@@ -79,6 +79,75 @@ class Search {
 `);
 
 this.isSpinnerVisible = false;
+// will display if something is wrong
+
+   }, () => this.resultsDiv.html( '<p> Unexpected error; please try again. </p>'));
+    
+  }
+
+  keyPressDispatcher(e) {
+    if (e.keyCode == 83 && !this.isOverlayOpen && !$("input, textarea").is(":focus")) {
+      this.openOverlay()
+    }
+
+    if (e.keyCode == 27 && this.isOverlayOpen) {
+      this.closeOverlay()
+    }
+  }
+
+  openOverlay() {
+    this.searchOverlay.addClass("search-overlay--active")
+    $("body").addClass("body-no-scroll");
+
+    this.searchField.val(' ');
+
+    setTimeout(() => {
+    this.searchField.trigger('focus');
+    }, 301);
+
+    console.log("our open method just ran!")
+    this.isOverlayOpen = true;
+  }
+
+  closeOverlay() {
+    this.searchOverlay.removeClass("search-overlay--active")
+    $("body").removeClass("body-no-scroll")
+    console.log("our close method just ran!")
+    this.isOverlayOpen = false
+  }
+
+
+  addSearchHTML(){
+    if($(".search-overlay").length === 0){
+
+      $("body").append(`
+      <div  class="search-overlay">
+      <div class="search-overlay__top">
+        <div class="container">
+          <i class="fa fa-search search-overlay__icon" aria-hidden="true"></i>
+           <input type="text" autocomplete="off" class="search-term" placeholder="What are you looking for?" id="search-term">
+           <i class="fa fa-window-close search-overlay__close" aria-hidden="true"></i>
+        </div>
+      </div>
+
+     <div class="container">
+      <div id="search-overlay__results">
+      </div>
+     </div>
+    </div>
+      `);
+
+    }
+  }
+
+
+
+}
+
+// delete this tomorrow
+
+this.isSpinnerVisible = false;
+// will display if something is wrong
 
    }, () => this.resultsDiv.html( '<p> Unexpected error; please try again. </p>'));
     
