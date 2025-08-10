@@ -57,8 +57,56 @@ class Search {
       const getPagesData = $.getJSON(universityData.root_url + '/wp-json/wp/v2/pages?search=' + this.searchField.val());
 
 
+      $.getJSON('http://fictional-university.local/wp-json/university/v1/search?term='+this.searchField.val(), (results) => {
+               this.resultsDiv.html(
+                   `<div class="row>
+
+                        <!-- GENERAL INFORMATION -->
+                        <div class="one-third">
+                             <h2 class="search-overlay__section-title">
+                                ${
+                                 results.length
+                                   ? `
+                                   <ul class="link-list min-list">
+                                     ${results.map(item => `
+                                       <li>
+                                         <a href="${item.link}">${item.title.rendered}</a>  ${ item.type == "post" ? `by ${item.authorName}`  : ' '}
+                                     </li>
+                                     `).join('')}
+                                    </ul>
+                                   `
+                                  : '<p>No Results found</p>'
+                               }
+                             </h2>
+                        </div>
+
+                        <!-- PROGRAMS -->
+                        <div class="one-third">
+                             <h2 class="search-overlay__section-title">
+                               Programs
+                             </h2>
+                        </div>
+                        
+                        // Professors
+                        <div class="one-third">
+                             <h2 class="search-overlay__section-title">
+                               Campuses
+                             </h2>
+                        </div>
+                        
+                         //Events
+                        <div class="one-third">
+                             <h2 class="search-overlay__section-title">
+                              Events
+                             </h2>
+                        </div>
+                   </div>`
+               )
+      });
+     
+      // delete this code a bit later on
+
       $.when(getPostsData,getPagesData).then(([posts], [pages]) => {
-      
       const combineResults = posts.concat(pages);
       
       this.resultsDiv.html(`
