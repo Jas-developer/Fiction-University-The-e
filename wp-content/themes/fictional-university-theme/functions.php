@@ -76,8 +76,14 @@ function university_files()
 
 
   wp_localize_script('main-universityjs', 'universityData', array(
-    'root_url' => home_url(),
-     'event_archive'   => get_post_type_archive_link('event')
+
+     'archive_routes' => array(
+      'root_url' => home_url(),
+      'event_archive'   => get_post_type_archive_link('event'),
+      'program_archive' => get_post_type_archive_link('program'),
+      'professor_archive' => get_post_type_archive_link('professor')
+     )
+
   ));
 };
 

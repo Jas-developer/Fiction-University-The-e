@@ -47,95 +47,121 @@ class Search {
 
       }
     }
-
+  
     this.previousValue = this.searchField.val()
   }
 
   getResults() {
       
-      $.getJSON(`${universityData.root_url}/wp-json/university/v1/search?term=`+this.searchField.val(), (results) => {
-               this.resultsDiv.html(
-                   `<div class="row>
+      $.getJSON(`${universityData.archive_routes.root_url}/wp-json/university/v1/search?term=`+this.searchField.val(), (results) => {
 
-                        <div class="one-third">
-                             <h2 class="search-overlay__section-title">
-                                General Information
-                             </h2>
-                              ${
-                                 results.generalInfo
-                                   ? `
-                                   <ul class="link-list min-list">
-                                     ${results.generalInfo.map(item => `
-                                       <li>
-                                         <a href="${item.permalink}">${item.title}</a> ${item.postType == 'post' ? `by ${item.authorName}` : ' '}
-                                     </li>
-                                     `).join('')}
+      if (this.searchField.val().trim().length <= 0) {
+  // No search input — clear results
+  this.resultsDiv.html('');
+  this.isSpinnerVisible = false;
+} else {
+  // Show search results
+  this.resultsDiv.html(`
+    <div class="row">
 
-                                     </ul>
-                  
-                                   `
-                                  : ' '
-                               }
-                        </div>
+      <!-- GENERAL INFORMATION -->
+      <div class="one-third">
+        <h2 class="search-overlay__section-title">General Information</h2>
+        ${
+          results.generalInfo.length > 0
+            ? `
+              <ul class="link-list min-list">
+                ${results.generalInfo.map(item => `
+                  <li>
+                    <a href="${item.permalink}">${item.title}</a>
+                    ${item.postType === 'post' ? ` by ${item.authorName}` : ''}
+                  </li>
+                `).join('')}
+              </ul>
+            `
+            : '<p>No general information matches that search.</p>'
+        }
+      </div>
 
-                      
-                        <div class="one-third">
-                        <h2 class="search-overlay__section-title">
-                                Programs
-                             </h2>
-                              ${
-                                 results.programs.length > 0
-                                   ? `
-                                   <ul class="link-list min-list">
-                                     ${results.programs.map(item => `
-                                       <li>
-                                         <a href="${item.permalink}">${item.title}</a> 
-                                     </li>
-                                     `).join('')}
+      <!-- PROGRAMS -->
+      <div class="one-third">
+        <h2 class="search-overlay__section-title">Programs</h2>
+        ${
+          results.programs.length > 0
+            ? `
+              <ul class="link-list min-list">
+                ${results.programs.map(item => `
+                  <li>
+                    <a href="${item.permalink}">${item.title}</a>
+                  </li>
+                `).join('')}
+              </ul>
+            `
+            : `<p>No programs match that search. <a href="${universityData.archive_routes.program_archive}">View All Programs</a></p>`
+        }
+      </div>
 
-                                     </ul>
-                  
-                                   `
-                                  :  `No programs match that search. <a href="${universityData.root_url + '/program'}">View All Programs</a>`
-                               }
-                        </div>
-                        
-                       
-                        <div class="one-third">
-                             <h2 class="search-overlay__section-title">
-                               Campuses
-                             </h2>
-                        </div>
-                        
-                         
-                        <div class="one-third">
-                             <h2 class="search-overlay__section-title">
-                              Events
-                             </h2>
-                              ${
-                                 results.events.length > 0
-                                   ? `
-                                   <ul class="link-list min-list">
-                                     ${results.events.map(item => `
-                                       <li>
-                                         <a href="${item.permalink}">${item.title}</a> 
-                                     </li>
-                                     `).join('')}
+      <!-- CAMPUSES -->
+      <div class="one-third">
+        <h2 class="search-overlay__section-title">Campuses</h2>
+        ${
+          results.campuses && results.campuses.length > 0
+            ? `
+              <ul class="link-list min-list">
+                ${results.campuses.map(item => `
+                  <li>
+                    <a href="${item.permalink}">${item.title}</a>
+                  </li>
+                `).join('')}
+              </ul>
+            `
+            : `<p>No campuses match that search. <a href="${universityData.archive_routes.campus_archive}">View All Campuses</a></p>`
+        }
+      </div>
 
-                                     </ul>
-                  
-                                   `
-                                  : `<p> No result for events found match this search. <a href="${universityData.event_archive}">View All events</a> </p> `
-                               }
-                        </div>
-                   </div>`
-               );
+      <!-- EVENTS -->
+      <div class="one-third">
+        <h2 class="search-overlay__section-title">Events</h2>
+        ${
+          results.events.length > 0
+            ? `
+              <ul class="link-list min-list">
+                ${results.events.map(item => `
+                  <li>
+                    <a href="${item.permalink}">${item.title}</a>
+                  </li>
+                `).join('')}
+              </ul>
+            `
+            : `<p>No events match that search. <a href="${universityData.archive_routes.event_archive}">View All Events</a></p>`
+        }
+      </div>
 
-               this.isSpinnerVisible = false;
-      });
+      <!-- PROFESSORS -->
+      <div class="one-third">
+        <h2 class="search-overlay__section-title">Professors</h2>
+        ${
+          results.professors.length > 0
+            ? `
+              <ul class="professor-card">
+                ${results.professors.map(item => `
+                  <li>
+                    <a href="${item.permalink}">${item.title}</a>
+                  </li>
+                `).join('')}
+              </ul>
+            `
+            : `<p>No professors match that search. <a href="${universityData.archive_routes.professor_archive}">View All Professors</a></p>`
+        }
+      </div>
+
+    </div>
+  `);
+
+  this.isSpinnerVisible = false;
+}});
      
-    
-  }
+}
 
   keyPressDispatcher(e) {
     if (e.keyCode == 83 && !this.isOverlayOpen && !$("input, textarea").is(":focus")) {

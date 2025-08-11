@@ -40,7 +40,8 @@ function universitySearchResults($data){
         if(get_post_type() == 'professor'){
             array_push($results['professors'], array(
                 'title' => get_the_title(),
-                'permalink' => get_permalink()
+                'permalink' => get_permalink(),
+                'image' => get_the_post_thumbnail()
             ));
         }
 
