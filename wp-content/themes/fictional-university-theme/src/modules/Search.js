@@ -53,83 +53,87 @@ class Search {
 
   getResults() {
       
-      const getPostsData = $.getJSON(universityData.root_url + '/wp-json/wp/v2/posts?search=' + this.searchField.val());
-      const getPagesData = $.getJSON(universityData.root_url + '/wp-json/wp/v2/pages?search=' + this.searchField.val());
-
-
-      $.getJSON('http://fictional-university.local/wp-json/university/v1/search?term='+this.searchField.val(), (results) => {
+      $.getJSON(`${universityData.root_url}/wp-json/university/v1/search?term=`+this.searchField.val(), (results) => {
                this.resultsDiv.html(
                    `<div class="row>
 
-                        <!-- GENERAL INFORMATION -->
                         <div class="one-third">
                              <h2 class="search-overlay__section-title">
-                                ${
-                                 results.length
+                                General Information
+                             </h2>
+                              ${
+                                 results.generalInfo
                                    ? `
                                    <ul class="link-list min-list">
-                                     ${results.map(item => `
+                                     ${results.generalInfo.map(item => `
                                        <li>
-                                         <a href="${item.link}">${item.title.rendered}</a>  ${ item.type == "post" ? `by ${item.authorName}`  : ' '}
+                                         <a href="${item.permalink}">${item.title}</a> ${item.postType == 'post' ? `by ${item.authorName}` : ' '}
                                      </li>
                                      `).join('')}
-                                    </ul>
+
+                                     </ul>
+                  
                                    `
-                                  : '<p>No Results found</p>'
+                                  : ' '
                                }
-                             </h2>
                         </div>
 
-                        <!-- PROGRAMS -->
+                      
                         <div class="one-third">
-                             <h2 class="search-overlay__section-title">
-                               Programs
+                        <h2 class="search-overlay__section-title">
+                                Programs
                              </h2>
+                              ${
+                                 results.programs.length > 0
+                                   ? `
+                                   <ul class="link-list min-list">
+                                     ${results.programs.map(item => `
+                                       <li>
+                                         <a href="${item.permalink}">${item.title}</a> 
+                                     </li>
+                                     `).join('')}
+
+                                     </ul>
+                  
+                                   `
+                                  :  `No programs match that search. <a href="${universityData.root_url + '/program'}">View All Programs</a>`
+                               }
                         </div>
                         
-                        // Professors
+                       
                         <div class="one-third">
                              <h2 class="search-overlay__section-title">
                                Campuses
                              </h2>
                         </div>
                         
-                         //Events
+                         
                         <div class="one-third">
                              <h2 class="search-overlay__section-title">
                               Events
                              </h2>
+                              ${
+                                 results.events.length > 0
+                                   ? `
+                                   <ul class="link-list min-list">
+                                     ${results.events.map(item => `
+                                       <li>
+                                         <a href="${item.permalink}">${item.title}</a> 
+                                     </li>
+                                     `).join('')}
+
+                                     </ul>
+                  
+                                   `
+                                  : `<p> No result for events found match this search. <a href="${universityData.event_archive}">View All events</a> </p> `
+                               }
                         </div>
                    </div>`
-               )
+               );
+
+               this.isSpinnerVisible = false;
       });
      
-      // delete this code a bit later on
-
-      $.when(getPostsData,getPagesData).then(([posts], [pages]) => {
-      const combineResults = posts.concat(pages);
-      
-      this.resultsDiv.html(`
-         <h2 class="search-overlay__section-title">General Information</h2>
-         ${
-           combineResults.length
-             ? `
-             <ul class="link-list min-list">
-               ${combineResults.map(item => `
-                 <li>
-                   <a href="${item.link}">${item.title.rendered}</a>  ${ item.type == "post" ? `by ${item.authorName}`  : ' '}
-               </li>
-               `).join('')}
-              </ul>
-             `
-            : '<p>No Results found</p>'
-         }
-`);
-
-this.isSpinnerVisible = false;
-// will display if something is wrong
-
-   }, () => this.resultsDiv.html( '<p> Unexpected error; please try again. </p>'));
     
   }
 
