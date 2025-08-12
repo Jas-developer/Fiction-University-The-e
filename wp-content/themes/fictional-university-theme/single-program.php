@@ -18,7 +18,7 @@ while(have_posts()){
       </div>
      <div class="generic-content">
       <p>
-      <?php the_content(); ?>
+      <?php the_field('main_body_content') ?>
       </p>
      </div>
      <?php

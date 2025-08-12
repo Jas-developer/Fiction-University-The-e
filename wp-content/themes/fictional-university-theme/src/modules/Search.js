@@ -79,11 +79,11 @@ class Search {
                 `).join('')}
               </ul>
             `
-            : '<p>No general information matches that search.</p>'
+            : ''
         }
       </div>
 
-      <!-- PROGRAMS -->
+     
       <div class="one-third">
         <h2 class="search-overlay__section-title">Programs</h2>
         ${
@@ -101,7 +101,7 @@ class Search {
         }
       </div>
 
-      <!-- CAMPUSES -->
+      
       <div class="one-third">
         <h2 class="search-overlay__section-title">Campuses</h2>
         ${
@@ -119,7 +119,6 @@ class Search {
         }
       </div>
 
-      <!-- EVENTS -->
       <div class="one-third">
         <h2 class="search-overlay__section-title">Events</h2>
         ${
@@ -127,9 +126,16 @@ class Search {
             ? `
               <ul class="link-list min-list">
                 ${results.events.map(item => `
-                  <li>
-                    <a href="${item.permalink}">${item.title}</a>
-                  </li>
+                   <div class="event-summary">
+                    <a class="event-summary__date t-center" href="${item.permalink}">
+                           <span class="event-summary__month">${item.month}</span>
+                           <span class="event-summary__day">${item.day}</span>
+                         </a>
+                       <div class="event-summary__content">
+                     <h5 class="event-summary__title headline headline--tiny"><a href="${item.permalink}">${item.title}</a></h5>
+                    <p>${item.description} <a href="${item.description}" class="nu gray">Learn more</a></p>
+                   </div>
+                 </div>
                 `).join('')}
               </ul>
             `
@@ -145,9 +151,13 @@ class Search {
             ? `
               <ul class="professor-card">
                 ${results.professors.map(item => `
-                  <li>
-                    <a href="${item.permalink}">${item.title}</a>
-                  </li>
+                   <li class="professor-card__list-item">
+                    <a class="professor-card" href="${item.permalink}">
+                     <img src="${item.image}"  class='professor-card__image'>
+                     <span class="professor-card__name">
+                       ${item.title}
+                     </span>
+                   </a></li>
                 `).join('')}
               </ul>
             `
