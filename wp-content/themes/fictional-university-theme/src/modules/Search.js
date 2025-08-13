@@ -195,6 +195,8 @@ class Search {
 
     console.log("our open method just ran!")
     this.isOverlayOpen = true;
+
+    
   }
 
   closeOverlay() {

@@ -1,0 +1,77 @@
+<?php
+
+get_header();
+
+while (have_posts()) {
+  the_post();  pageBanner();
+  ?>
+  
+  <div class="container container--narrow page-section">
+
+    <?php
+    $current_page_id = get_the_ID(); //current page id
+    $parent_id = wp_get_post_parent_id($current_page_id); // find the parent of this current id
+
+    if ($parent_id != 0) {
+      ?>
+      <div class="metabox metabox--position-up metabox--with-home-link">
+        <p>
+          <a class="metabox__blog-home-link" href="<?php echo get_permalink($parent_id); ?>">
+            <i class="fa fa-home" aria-hidden="true"></i> Back to <?php echo get_the_title( $parent_id ); ?>
+
+          </a>
+          <span class="metabox__main">
+            <?php the_title(); ?>
+          </span>
+        </p>
+      </div>
+    <?php } ?>
+    
+
+  <?php 
+  
+  $hasChild = get_pages( array(
+   'child_of' => get_the_ID(  )
+  ) );
+  
+  if ( $parent_id or $hasChild ) { ?> <div class="page-links">
+
+    <?php 
+      // display the sidebar regardless
+      if($parent_id) //check if there is a parent / if this is current a child post/page
+      { $findChildrenOf =  $parent_id;}
+      else // if you are on a parent page
+      { $findChildrenOf = get_the_ID(); }?>
+
+    <h2 class="page-links__title">
+      <a href="<?php echo get_permalink($findChildrenOf ); ?>">
+      <?php echo get_the_title( $findChildrenOf ); ?>
+      </a>
+    </h2>
+    <ul class="min-list">
+    <?php 
+      wp_list_pages(array(
+        'title_li' => null,
+        'sort_column' => 'menu_order',
+        'child_of' => $findChildrenOf
+      )); 
+
+    ?>
+    </ul>
+  </div>
+  <?php } ?>
+
+    <div class="generic-content">
+      <form class="search-form" method="get" action="<?php echo esc_url( site_url('/') ) ?>">
+        <label class="headline headline--medium" for="s">Perform a New Search</label>
+         <div class="search-form-row">
+            <input placeholder="What are you looking for?"  class="s" id="s" type="search" name="s">
+            <input class="search-submit" type="submit" value="Search">
+         </div>
+      </form>
+    </div>
+  </div>
+<?php 
+}
+get_footer();
+?>

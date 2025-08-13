@@ -93,8 +93,8 @@ function universitySearchResults($data){
 
      $programRelationshipQuery = new WP_Query(
         array(
-            'post_type' => 'professor',
-            'meta_query' => $programsMetaQuery
+          'post_type' => ['professor','event'],
+          'meta_query' => $programsMetaQuery
         )
      );
 
@@ -113,11 +113,9 @@ function universitySearchResults($data){
     }
     
     $results['professors'] = array_values(array_unique($results['professors'], SORT_REGULAR));
+    $results['events'] = array_values(array_unique($results['events'], SORT_REGULAR));
+
      }
-
-
-
-     
 
     return $results;
 }
