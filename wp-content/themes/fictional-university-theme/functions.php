@@ -129,3 +129,106 @@ function university_adjust_queries($query){
 //pre get post
 add_action('pre_get_posts', 'university_adjust_queries');
 
+
+
+
+// Redirect subscriber or user accounts out of admin and onto  homepage instead
+function redirectSubsToFrontend(){
+   $ourCurrentUser = wp_get_current_user();
+
+   if(count($ourCurrentUser->roles) == 1 && $ourCurrentUser->roles[0] == 'subscriber'){
+      wp_redirect(home_url( '/' ) );
+      exit();
+   }
+
+
+}
+
+add_action('admin_init', 'redirectSubsToFrontend');
+
+
+
+// remove subscriber admin bar
+function noSubsAdminBar(){
+   $ourCurrentUser = wp_get_current_user();
+
+   if(count($ourCurrentUser->roles) == 1 && $ourCurrentUser->roles[0] == 'subscriber'){
+      show_admin_bar( false );
+   }
+}
+
+add_action('wp_loaded', 'noSubsAdminBar');
+
+
+// redirect login logo
+function ourHeaderUrl(){
+    return esc_url(site_url('/'));
+};
+
+
+add_filter('login_headerurl', 'ourHeaderUrl');
+
+
+// customize login screen style
+function custom_login_logo() {
+    ?>
+    <style>
+        body.login {
+            background-color: #111; /* Change login background color */
+            background-size: cover;
+            color:white;
+        }
+
+        .login .wp-login-logo a {
+            background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/images/apples.jpg'); /* Use Site Icon */
+            background-size: contain;
+            width: 100px;
+            height: 100px;
+            display:hidden;
+            opacity: 100;
+            index:-1;
+
+        
+        }
+
+        #loginform{
+          background-color:Blue;
+          color:white;
+          border-radius:20px;
+          border:none;
+          font-weight:500;
+        }
+
+        #loginform label{
+          font-size:18px;
+        }
+        
+        .submit #wp-submit{
+          background-color:orange;
+        }
+          
+        .privacy-policy-link{
+          color:transparent
+        }
+
+
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+             const loginTitle = document.querySelector('.login .wp-login-logo a').textContent = "Login to your account now";
+             const userLoginText = document.querySelector('#loginform p label').textContent = "ENTER EMAIL OR USERNAME";
+            // password text
+            const userPasswordText = document.querySelector(".user-pass-wrap label").textContent = 'ENTER YOUR PASSWORD';
+            // button change text
+            const loginButtonText = document.getElementById('wp-submit').value = 'LOGIN NOW';
+
+            const backToLogText = document.querySelector('#backtoblog a').textContent = '<- Back to Home'
+
+        });
+    </script>
+    <?php
+}
+add_action('login_enqueue_scripts', 'custom_login_logo');
+
+

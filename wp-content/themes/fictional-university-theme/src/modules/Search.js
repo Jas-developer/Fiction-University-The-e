@@ -206,7 +206,6 @@ class Search {
     this.isOverlayOpen = false
   }
 
-
   addSearchHTML(){
     if($(".search-overlay").length === 0){
 
