@@ -9,6 +9,10 @@
       .hide-note-card{
         display:none
       }
+
+      .hidden{
+        display:none
+      }
     </style>
 </head>
 <!-- body sandwitch -->
