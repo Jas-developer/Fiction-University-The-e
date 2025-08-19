@@ -27,13 +27,70 @@ class MyNotes {
            updateNote.addEventListener('click', (e) => {
             this.UpdateNote(e)
            })
-        })
+        });
 
-
-
+        // Create a Note Event Listener
+        const createTheNote = document.querySelector('.submit-note');
+        createTheNote.addEventListener('click', (e) => {
+                if(!createTheNote.closest(".create-note").querySelector('.new-note-title').value == "" &&
+                   !createTheNote.closest(".create-note").querySelector('.new-note-body').value == ""
+                  ){
+                 this.createNote(e);
+                } 
+            }
+        )
 
     }
     
+    //Create / Submit a Note
+    async createNote(e){
+        
+     try {
+
+        const parentCard = e.target.closest('.create-note');
+        const bodyValue = parentCard.querySelector('.new-note-body').value;
+        const titleValue = parentCard.querySelector('.new-note-title').value;
+        
+        
+        const noteData = {
+            title: titleValue,
+            content: bodyValue,
+            status: "publish"
+        }
+
+        
+        const postUrl =  universityData.archive_routes.root_url+`/wp-json/wp/v2/note`;
+        
+        // Sending updated data / Updating data
+        const res = await axios.post(postUrl, noteData,{ headers:{ 'X-WP-Nonce': universityData.archive_routes.nonce } }); 
+
+        if(res.status === 201 || res.status === 200){
+           console.log('Created note successfully')
+           parentCard.querySelector(".new-note-title").value = "Succes a new Note is submitted ";
+           parentCard.querySelector(".new-note-body").value = " ";
+           setTimeout(() => {
+           window.location.reload();
+           }, 300); // 0.3 sec
+
+        } else {
+          throw new Error("Failed to create a note or data")
+        }
+
+        console.log(res)
+            
+        } catch (error) {
+            console.log(error.message ? error.message : "Something wen wrong");
+        }
+
+        
+    }
+
+  
+
+
+
+
+
 
     //Update Note Method Passed as a CallBack Function for the Event Listener
     async UpdateNote(e){
