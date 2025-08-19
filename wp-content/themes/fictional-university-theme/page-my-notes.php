@@ -32,8 +32,10 @@
             $userNotes = new WP_Query(
                 [
                     'post_type' => 'note',
-                    'post_per_page' => -1,
-                    'author' => get_current_user_id()
+                    'posts_per_page' => -1,
+                    'author' => get_current_user_id(),
+                    'orderby'  => 'date',
+                    'order'    => 'DESC'
                 ]
             );
 
@@ -51,7 +53,7 @@
            ?>
        </ul>
     </div>
-
+        
 
   <?php }
 // footer |

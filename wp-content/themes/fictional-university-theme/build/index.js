@@ -6127,16 +6127,19 @@ class MyNotes {
     });
 
     // Create a Note Event Listener
-    const createTheNote = document.querySelector('.submit-note');
-    createTheNote.addEventListener('click', e => {
-      if (!createTheNote.closest(".create-note").querySelector('.new-note-title').value == "" && !createTheNote.closest(".create-note").querySelector('.new-note-body').value == "") {
-        this.createNote(e);
-      }
+    document.addEventListener('DOMContentLoaded', () => {
+      const createTheNote = document.querySelector('.submit-note');
+      const ulElement = document.getElementById("my-notes");
+      createTheNote.addEventListener('click', e => {
+        if (!createTheNote.closest(".create-note").querySelector('.new-note-title').value == "" && !createTheNote.closest(".create-note").querySelector('.new-note-body').value == "") {
+          this.createNote(e, ulElement);
+        }
+      });
     });
   }
 
   //Create / Submit a Note
-  async createNote(e) {
+  async createNote(e, ulElement) {
     try {
       const parentCard = e.target.closest('.create-note');
       const bodyValue = parentCard.querySelector('.new-note-body').value;
@@ -6156,11 +6159,26 @@ class MyNotes {
       });
       if (res.status === 201 || res.status === 200) {
         console.log('Created note successfully');
-        parentCard.querySelector(".new-note-title").value = "Succes a new Note is submitted ";
-        parentCard.querySelector(".new-note-body").value = " ";
+        parentCard.querySelector(".new-note-title").value = "Added note Succesfuly ";
         setTimeout(() => {
-          window.location.reload();
-        }, 300); // 0.3 sec
+          parentCard.querySelector(".new-note-title").value = " ";
+        }, 1000);
+        parentCard.querySelector(".new-note-body").value = " ";
+        // Ul Element / Notes Parent Element
+        const li = document.createElement("li");
+        li.setAttribute("data-id", res.data.id);
+        li.classList.add("note-card");
+        console.log(res.data.title.raw);
+        // Li Inner Html
+        li.innerHTML = ` 
+         <input readonly class="note-title-field" type="text" value="${res.data.title.raw}">
+         <span class="edit-note"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</span>
+         <span class="delete-note"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</span>
+         <textarea readonly class="note-body-field">${res.data.content.raw}</textarea>
+         <span class="update-note btn btn--blue btn--small"><i class="fa fa-arrow-right" aria-hidden="true"></i>Save</span>
+                     `;
+        ulElement.prepend(li);
+        console.log(li);
       } else {
         throw new Error("Failed to create a note or data");
       }
