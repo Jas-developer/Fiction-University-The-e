@@ -7,46 +7,38 @@ class MyNotes {
     }
 
     events(){
-        //Delete a Note Event Listener
-        const deleteTheNote = document.querySelectorAll(".delete-note");
-        deleteTheNote.forEach(delNote => {
-            delNote.addEventListener('click', (e) => {
-            this.deleteNote(e)
-            })
-        });
-        //Edit a Note Event Listener
-        const editTheNote = document.querySelectorAll('.edit-note');
-        editTheNote.forEach(editNote => {
-            editNote.addEventListener('click', (e) => {
-            this.EditNote(e);
-            });
-        });
-        //Update a Note Event Listener
-        const updateTheNote = document.querySelectorAll('.update-note');
-        updateTheNote.forEach((updateNote) => {
-           updateNote.addEventListener('click', (e) => {
-            this.UpdateNote(e)
-           })
-        });
-
-        // Create a Note Event Listener
-        document.addEventListener('DOMContentLoaded', () => {
-            const createTheNote = document.querySelector('.submit-note');
-            const ulElement = document.getElementById("my-notes");
-        
-        createTheNote.addEventListener('click', (e) => {
-                if(!createTheNote.closest(".create-note").querySelector('.new-note-title').value == "" &&
-                   !createTheNote.closest(".create-note").querySelector('.new-note-body').value == ""
-                  ){
-                 this.createNote(e, ulElement);
-                } 
+        //EVENT DELIGATION
+        document.getElementById('my-notes').addEventListener('click', event => {
+            // delete a note
+            if(event.target.classList.contains('delete-note')){
+            this.deleteNote(event);
             }
-        )
-        })
+            // edit a note
+            if(event.target.classList.contains("edit-note")){
+            this.EditNote(event);   
+            }
+            // update a note
+            if(event.target.classList.contains("update-note") ){
+            this.UpdateNote(event);
+            }
+            
+        });
 
+
+        // Create a note
+            
+        const createTheNote = document.querySelector('.submit-note');
+        const ulElement = document.getElementById("my-notes");
+        createTheNote.addEventListener('click', event => {
+            if(!createTheNote.closest(".create-note").querySelector('.new-note-title').value == "" &&
+               !createTheNote.closest(".create-note").querySelector('.new-note-body').value == ""
+             ){
+                 this.createNote(event, ulElement);
+                } 
+         })
     }
     
-    //Create / Submit a Note
+    //Create / Submit a Note method passed as event listener
     async createNote(e, ulElement){
         
      try {
@@ -72,10 +64,13 @@ class MyNotes {
 
         if(res.status === 201 || res.status === 200){
            console.log('Created note successfully')
-            parentCard.querySelector(".new-note-title").value = "Added note Succesfuly ";
-           setTimeout(() => {
-             parentCard.querySelector(".new-note-title").value = " ";
-           },1000)
+            parentCard.querySelector(".new-note-title").value = "Adding notes....";
+            setTimeout(() => {
+                parentCard.querySelector(".new-note-title").value = "Note Added";
+                setTimeout(() => {
+                parentCard.querySelector(".new-note-title").value = " ";
+                },1000)
+            },500)
            parentCard.querySelector(".new-note-body").value = " ";
           // Ul Element / Notes Parent Element
            const li =  document.createElement("li");
