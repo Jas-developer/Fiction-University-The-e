@@ -164,66 +164,18 @@ function ourHeaderUrl(){
 add_filter('login_headerurl', 'ourHeaderUrl');
 
 
-// customize login screen style
-function custom_login_logo() {
-    ?>
-    <style>
-        body.login {
-            background-color: #111; /* Change login background color */
-            background-size: cover;
-            color:white;
-        }
+// MAKING NEW CREATED NOTES PRIVATE
 
-        .login .wp-login-logo a {
-            background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/images/apples.jpg'); /* Use Site Icon */
-            background-size: contain;
-            width: 100px;
-            height: 100px;
-            display:hidden;
-            opacity: 100;
-            index:-1;
+add_filter( 'wp_insert_post_data', 'MakeNotesPrivate');
 
-        
-        }
-
-        #loginform{
-          background-color:Blue;
-          color:white;
-          border-radius:20px;
-          border:none;
-          font-weight:500;
-        }
-
-        #loginform label{
-          font-size:18px;
-        }
-        
-        .submit #wp-submit{
-          background-color:orange;
-        }
-          
-        .privacy-policy-link{
-          color:transparent
-        }
-
-
-    </style>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-             const loginTitle = document.querySelector('.login .wp-login-logo a').textContent = "Login to your account now";
-             const userLoginText = document.querySelector('#loginform p label').textContent = "ENTER EMAIL OR USERNAME";
-            // password text
-            const userPasswordText = document.querySelector(".user-pass-wrap label").textContent = 'ENTER YOUR PASSWORD';
-            // button change text
-            const loginButtonText = document.getElementById('wp-submit').value = 'LOGIN NOW';
-
-            const backToLogText = document.querySelector('#backtoblog a').textContent = '<- Back to Home'
-
-        });
-    </script>
-    <?php
+function MakeNotesPrivate($data){
+  // sanitize textarea contenr
+  if($data['post_type'] == 'note'){
+   $data['post_content'] = sanitize_text_field($data['post_content'])
+  }
+  //make note private
+  if($data['post_type'] == 'note' && $data['post_status'] != 'trash'){
+    $data['post_status'] = 'private';
+  }   
+  return $data;
 }
-add_action('login_enqueue_scripts', 'custom_login_logo');
-
-

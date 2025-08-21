@@ -67,8 +67,10 @@ class MyNotes {
             parentCard.querySelector(".new-note-title").value = "Adding notes....";
             setTimeout(() => {
                 parentCard.querySelector(".new-note-title").value = "Note Added";
+                parentCard.style.backgroundColor = "green";
                 setTimeout(() => {
-                parentCard.querySelector(".new-note-title").value = " ";
+                parentCard.querySelector(".new-note-title").value = "";
+                parentCard.style.removeProperty("background-color");
                 },1000)
             },500)
            parentCard.querySelector(".new-note-body").value = " ";
