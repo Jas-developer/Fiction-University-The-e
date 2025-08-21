@@ -5,11 +5,15 @@ require get_theme_file_path('./includes/search-routes.php');
 
 
 
-//added new custom field
+//added new data to the res response
 
 function university_custom_rest(){
   register_rest_field( 'post', 'authorName', array(
     'get_callback' => function() { return  get_the_author( ); }
+  ) );
+
+  register_rest_field( 'note', 'userNoteCount', array(
+    'get_callback' => function() { return  count_user_posts(get_current_user_id(), 'note'); }
   ) );
 }
 
@@ -166,16 +170,21 @@ add_filter('login_headerurl', 'ourHeaderUrl');
 
 // MAKING NEW CREATED NOTES PRIVATE
 
-add_filter( 'wp_insert_post_data', 'MakeNotesPrivate');
+add_filter( 'wp_insert_post_data', 'MakeNotesPrivate', 10, 2);
 
-function MakeNotesPrivate($data){
+function MakeNotesPrivate($data, $postarr){
   // sanitize textarea contenr
   if($data['post_type'] == 'note'){
-   $data['post_content'] = sanitize_text_field($data['post_content'])
+  if(count_user_posts( get_current_user_id(), 'note') >= 2 AND !$postarr['ID']){
+    die("Maximum Reached");
+  }
+    
+   $data['post_content'] = sanitize_textarea_field($data['post_content']);
+   $data['post_title'] = sanitize_text_field($data['post_title']);
   }
   //make note private
   if($data['post_type'] == 'note' && $data['post_status'] != 'trash'){
     $data['post_status'] = 'private';
   }   
   return $data;
-}
+} 

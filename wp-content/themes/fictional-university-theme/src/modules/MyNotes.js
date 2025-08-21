@@ -4,10 +4,12 @@ import axios from "axios";
 class MyNotes {
     constructor(){
         this.events();
+        this.userNoteCount = 0;
     }
 
     events(){
         //EVENT DELIGATION
+        
         document.getElementById('my-notes').addEventListener('click', event => {
             // delete a note
             if(event.target.classList.contains('delete-note')){
@@ -48,60 +50,60 @@ class MyNotes {
         const titleValue = parentCard.querySelector('.new-note-title').value;
         
         
-    
-        
         const noteData = {
             title: titleValue,
             content: bodyValue,
             status: "publish"
         }
-
+   
         
         const postUrl =  universityData.archive_routes.root_url+`/wp-json/wp/v2/note`;
         
         // Sending updated data / Updating data
-        const res = await axios.post(postUrl, noteData,{ headers:{ 'X-WP-Nonce': universityData.archive_routes.nonce } }); 
+        const res = await axios.post(postUrl, noteData,{ headers:{ 'X-WP-Nonce': universityData.archive_routes.nonce } });
+
+        this.userNoteCount = res.data.userNoteCount;
+
+        
+
+        console.log(res);
 
         if(res.status === 201 || res.status === 200){
-           console.log('Created note successfully')
-            parentCard.querySelector(".new-note-title").value = "Adding notes....";
-            setTimeout(() => {
-                parentCard.querySelector(".new-note-title").value = "Note Added";
-                parentCard.style.backgroundColor = "green";
-                setTimeout(() => {
-                parentCard.querySelector(".new-note-title").value = "";
-                parentCard.style.removeProperty("background-color");
-                },1000)
-            },500)
            parentCard.querySelector(".new-note-body").value = " ";
+           parentCard.querySelector(".new-note-title").value = " ";
           // Ul Element / Notes Parent Element
            const li =  document.createElement("li");
            li.setAttribute("data-id", res.data.id);  
            li.classList.add("note-card");
            
-           console.log(res.data.title.raw)
-        // Li Inner Html
-        li.innerHTML = ` 
-         <input readonly class="note-title-field" type="text" value="${res.data.title.raw}">
-         <span class="edit-note"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</span>
-         <span class="delete-note"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</span>
-         <textarea readonly class="note-body-field">${res.data.content.raw}</textarea>
-         <span class="update-note btn btn--blue btn--small"><i class="fa fa-arrow-right" aria-hidden="true"></i>Save</span>
+           if(res.data.title){
+            console.log(res.data.title.raw)
+           }else{
+            console.log("reached fcking limit")
+           }
+           
+        // check if we reached the limit then rendered if not
+           if(typeof res.data === 'string' && res.data === 'Maximum Reached'){
+              parentCard.querySelector(".note-limit-message").classList.add("active");
+           }else{
+              li.innerHTML = ` 
+              <input readonly class="note-title-field" type="text" value="${res.data.title ? res.data.title.raw : ''}">
+              <span class="edit-note"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</span>
+              <span class="delete-note"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</span>
+              <textarea readonly class="note-body-field">${res.data.content ? res.data.content.raw : ''}</textarea>
+              <span class="update-note btn btn--blue btn--small"><i class="fa fa-arrow-right" aria-hidden="true"></i>Save</span>
                      `
-
-        ulElement.prepend(li)
-        console.log(li)
-          
+            ulElement.prepend(li)
+            console.log(li)
+           }
 
 
         } else {
           throw new Error("Failed to create a note or data")
         }
-
-        console.log(res)
             
         } catch (error) {
-            console.log(error.message ? error.message : "Something wen wrong");
+            console.log(error);
         }
 
         
@@ -270,6 +272,14 @@ class MyNotes {
         //return object for frontend user
         if(res.statusText === 'OK'){
            parentCard.classList.add("hide-note-card");
+          
+           console.log(this.userNoteCount)
+           
+          if(res.data.userNoteCount !== undefined ){
+              const messageEl = document.querySelector(".note-limit-message"); // first element
+              if(messageEl) messageEl.classList.remove("active");
+          }
+
 
            const results = {
                Title: res.data.title.rendered,

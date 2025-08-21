@@ -23,6 +23,9 @@
          <button  class="submit-note">
             Create Note
          </button>
+         <span class="note-limit-message">
+            Note Limit Reached: Upgrade your plan to do more shit
+         </span>
        </div> 
 
 
