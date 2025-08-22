@@ -5997,9 +5997,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/HeroSlider */ "./src/modules/HeroSlider.js");
 /* harmony import */ var _modules_Search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/Search */ "./src/modules/Search.js");
 /* harmony import */ var _modules_MyNotes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/MyNotes */ "./src/modules/MyNotes.js");
+/* harmony import */ var _modules_Like__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/Like */ "./src/modules/Like.js");
 
 
 // Our modules / classes
+
 
 
 
@@ -6010,6 +6012,7 @@ const mobileMenu = new _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__["default
 const heroSlider = new _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__["default"]();
 const search = new _modules_Search__WEBPACK_IMPORTED_MODULE_3__["default"]();
 const notes = new _modules_MyNotes__WEBPACK_IMPORTED_MODULE_4__["default"]();
+const like = new _modules_Like__WEBPACK_IMPORTED_MODULE_5__["default"]();
 
 /***/ }),
 
@@ -6052,6 +6055,43 @@ class HeroSlider {
   }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HeroSlider);
+
+/***/ }),
+
+/***/ "./src/modules/Like.js":
+/*!*****************************!*\
+  !*** ./src/modules/Like.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+class Like {
+  constructor() {
+    this.events();
+  }
+  events() {
+    //like box
+    const likeBox = document.querySelector(".like-box");
+    if (likeBox) {
+      likeBox.addEventListener("click", e => {
+        this.clickHandler(e);
+      });
+    }
+  }
+
+  //methods
+
+  async clickHandler(e) {
+    alert("The Click Handler Method is Working");
+    console.log(e.currentTarget.getAttribute("test-res"));
+  }
+}
+;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Like);
 
 /***/ }),
 
@@ -6105,32 +6145,37 @@ class MyNotes {
     this.userNoteCount = 0;
   }
   events() {
-    //EVENT DELIGATION
+    const notesList = document.getElementById('my-notes');
+    if (notesList) {
+      notesList.addEventListener('click', event => {
+        // delete a note
+        if (event.target.classList.contains('delete-note')) {
+          this.deleteNote(event);
+        }
 
-    document.getElementById('my-notes').addEventListener('click', event => {
-      // delete a note
-      if (event.target.classList.contains('delete-note')) {
-        this.deleteNote(event);
-      }
-      // edit a note
-      if (event.target.classList.contains("edit-note")) {
-        this.EditNote(event);
-      }
-      // update a note
-      if (event.target.classList.contains("update-note")) {
-        this.UpdateNote(event);
-      }
-    });
+        // edit a note
+        if (event.target.classList.contains('edit-note')) {
+          this.EditNote(event);
+        }
+
+        // update a note
+        if (event.target.classList.contains('update-note')) {
+          this.UpdateNote(event);
+        }
+      });
+    }
 
     // Create a note
 
     const createTheNote = document.querySelector('.submit-note');
     const ulElement = document.getElementById("my-notes");
-    createTheNote.addEventListener('click', event => {
-      if (!createTheNote.closest(".create-note").querySelector('.new-note-title').value == "" && !createTheNote.closest(".create-note").querySelector('.new-note-body').value == "") {
-        this.createNote(event, ulElement);
-      }
-    });
+    if (createTheNote && ulElement) {
+      createTheNote.addEventListener('click', event => {
+        if (!createTheNote.closest(".create-note").querySelector('.new-note-title').value == "" && !createTheNote.closest(".create-note").querySelector('.new-note-body').value == "") {
+          this.createNote(event, ulElement);
+        }
+      });
+    }
   }
 
   //Create / Submit a Note method passed as event listener

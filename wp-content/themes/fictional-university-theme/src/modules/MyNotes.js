@@ -8,30 +8,35 @@ class MyNotes {
     }
 
     events(){
-        //EVENT DELIGATION
-        
-        document.getElementById('my-notes').addEventListener('click', event => {
-            // delete a note
-            if(event.target.classList.contains('delete-note')){
-            this.deleteNote(event);
-            }
-            // edit a note
-            if(event.target.classList.contains("edit-note")){
-            this.EditNote(event);   
-            }
-            // update a note
-            if(event.target.classList.contains("update-note") ){
-            this.UpdateNote(event);
-            }
-            
-        });
+        const notesList = document.getElementById('my-notes')
+
+if (notesList) {
+  notesList.addEventListener('click', event => {
+    // delete a note
+    if (event.target.classList.contains('delete-note')) {
+      this.deleteNote(event)
+    }
+
+    // edit a note
+    if (event.target.classList.contains('edit-note')) {
+      this.EditNote(event)
+    }
+
+    // update a note
+    if (event.target.classList.contains('update-note')) {
+      this.UpdateNote(event)
+    }
+  })
+}
+
 
 
         // Create a note
             
         const createTheNote = document.querySelector('.submit-note');
         const ulElement = document.getElementById("my-notes");
-        createTheNote.addEventListener('click', event => {
+        if(createTheNote && ulElement){
+            createTheNote.addEventListener('click', event => {
             if(!createTheNote.closest(".create-note").querySelector('.new-note-title').value == "" &&
                !createTheNote.closest(".create-note").querySelector('.new-note-body').value == ""
              ){
@@ -39,6 +44,7 @@ class MyNotes {
                 } 
          })
     }
+        }
     
     //Create / Submit a Note method passed as event listener
     async createNote(e, ulElement){
