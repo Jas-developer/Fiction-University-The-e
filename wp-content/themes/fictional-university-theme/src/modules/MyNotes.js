@@ -110,12 +110,6 @@ class MyNotes {
     }
 
   
-
-
-
-
-
-
     //Update Note Method Passed as a CallBack Function for the Event Listener
     async UpdateNote(e){
 
@@ -272,11 +266,11 @@ class MyNotes {
         //return object for frontend user
         if(res.statusText === 'OK'){
            parentCard.classList.add("hide-note-card");
-          
-           console.log(this.userNoteCount)
-           
-          if(res.data.userNoteCount !== undefined ){
-              const messageEl = document.querySelector(".note-limit-message"); // first element
+          const count = Number(res.data.userNoteCount)
+          console.log(count)
+    
+          if(res.data.userNoteCount !== undefined || Number(res.data.userNoteCount) <= 2 ){
+              const messageEl = document.querySelector(".note-limit-message"); 
               if(messageEl) messageEl.classList.remove("active");
           }
 
