@@ -55,7 +55,6 @@ function universitySearchResults($data){
         
        if(get_post_type() == 'event'){
 
-
          $event__date = get_field('event_date');
          $event = new DateTime($event__date);
          $description = null;
@@ -63,9 +62,9 @@ function universitySearchResults($data){
 
         if(has_excerpt() ){ 
             $description = get_the_excerpt(); } 
-            else{ 
-                $description = wp_trim_words(get_the_content(), 18); 
-            }
+         else{ 
+            $description = wp_trim_words(get_the_content(), 18); 
+         }
 
 
          array_push($results['events'], array(

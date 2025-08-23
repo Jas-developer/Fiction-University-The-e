@@ -2,6 +2,9 @@
 
 
 require get_theme_file_path('./includes/search-routes.php');
+require get_theme_file_path( './includes/like-route.php' );
+
+
 
 
 

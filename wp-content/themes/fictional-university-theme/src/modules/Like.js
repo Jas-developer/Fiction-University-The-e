@@ -17,12 +17,29 @@ class Like{
       }
     
     //methods
-
     async clickHandler(e){
-        alert("The Click Handler Method is Working");
-        console.log(e.currentTarget.getAttribute("test-res"))
-    }
 
+      const likeStatus = e.currentTarget.dataset.exists;
+       console.log(typeof likeStatus)
+       
+       if(likeStatus === 'yes'){
+          this.removeLike()
+       }else{
+          this.createLike()
+       }
+
+
+       
+    }
+    
+    // create like method
+    async createLike(){
+       alert('Like has been created');
+    }
+    // remove  like method
+    async removeLike(){
+        alert("Like has been remove");
+    }
 
 };
 
