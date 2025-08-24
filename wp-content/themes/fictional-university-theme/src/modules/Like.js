@@ -1,3 +1,7 @@
+import axios from "axios";
+
+
+
 class Like{
       constructor(){
         this.events();
@@ -34,11 +38,20 @@ class Like{
     
     // create like method
     async createLike(){
-       alert('Like has been created');
+       const likeUrl = universityData.archive_routes.root_url+'/wp-json/university/v1/manageLike';
+
+       const res = await axios.post(likeUrl)
+       
+       res ? console.log(res) : ' '
+      
     }
     // remove  like method
     async removeLike(){
-        alert("Like has been remove");
+        const likeUrl = universityData.archive_routes.root_url+'/wp-json/university/v1/manageLike';
+
+       const res = await axios.delete(likeUrl)
+       
+       res ? console.log(res) : ' '
     }
 
 };

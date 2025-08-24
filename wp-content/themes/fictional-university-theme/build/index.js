@@ -6069,6 +6069,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
 class Like {
   constructor() {
     this.events();
@@ -6096,11 +6099,15 @@ class Like {
 
   // create like method
   async createLike() {
-    alert('Like has been created');
+    const likeUrl = universityData.archive_routes.root_url + '/wp-json/university/v1/manageLike';
+    const res = await axios__WEBPACK_IMPORTED_MODULE_0___default().post(likeUrl);
+    res ? console.log(res) : ' ';
   }
   // remove  like method
   async removeLike() {
-    alert("Like has been remove");
+    const likeUrl = universityData.archive_routes.root_url + '/wp-json/university/v1/manageLike';
+    const res = await axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](likeUrl);
+    res ? console.log(res) : ' ';
   }
 }
 ;
