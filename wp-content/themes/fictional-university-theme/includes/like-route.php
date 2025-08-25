@@ -19,8 +19,20 @@ function universityLikeRoutes(){
 };
 
 
-function createLike(){
-    return "You Created a LIKE" ;
+function createLike($data){
+    
+    $professorId = $data['professor-id'];
+
+    wp_insert_post(array(
+       'post_type' => 'like',
+       'post_status' => 'publish',
+       'post_title' => 'Like has been Created!',
+       'meta_input' => array(
+            'like_professor_id' => $professorId
+       )
+    ));
+    
+
 }
 
 function deleteLike(){

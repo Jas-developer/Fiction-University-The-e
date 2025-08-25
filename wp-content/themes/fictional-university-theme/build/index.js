@@ -6088,24 +6088,32 @@ class Like {
 
   //methods
   async clickHandler(e) {
-    const likeStatus = e.currentTarget.dataset.exists;
-    console.log(typeof likeStatus);
-    if (likeStatus === 'yes') {
-      this.removeLike();
+    const likeBoxData = e.currentTarget;
+    if (likeBoxData.dataset.exists === 'yes') {
+      this.removeLike(likeBoxData);
     } else {
-      this.createLike();
+      this.createLike(likeBoxData);
     }
   }
 
   // create like method
-  async createLike() {
+  async createLike(likeBoxData) {
     const likeUrl = universityData.archive_routes.root_url + '/wp-json/university/v1/manageLike';
-    const res = await axios__WEBPACK_IMPORTED_MODULE_0___default().post(likeUrl);
+    const professorId = likeBoxData.getAttribute('professor-id');
+    const res = await axios__WEBPACK_IMPORTED_MODULE_0___default().post(likeUrl, {
+      'professor-id': professorId
+    }, {
+      headers: {
+        'X-WP-Nonce': universityData.archive_routes.nonce
+      }
+    });
+    console.log(likeBoxData);
     res ? console.log(res) : ' ';
   }
   // remove  like method
-  async removeLike() {
-    const likeUrl = universityData.archive_routes.root_url + '/wp-json/university/v1/manageLike';
+  async removeLike(likeBoxData) {
+    const professorId = likeBoxData.getAttribute("professor-id");
+    const likeUrl = universityData.archive_routes.root_url + `/wp-json/university/v1/manageLike`;
     const res = await axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](likeUrl);
     res ? console.log(res) : ' ';
   }
